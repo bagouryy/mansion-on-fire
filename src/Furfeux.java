@@ -1,8 +1,6 @@
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.Timer;
+import javax.swing.*;
 
-public class Furfeux {
+public class Furfeux{
 
     Terrain terrain;
     Joueur joueur;
@@ -17,7 +15,7 @@ public class Furfeux {
     }
 
     public boolean partieFinie() {
-        /* À compléter */
+        return false;
     }
 
     public static void main(String[] args) {
@@ -32,7 +30,7 @@ public class Furfeux {
                 ((Timer)e.getSource()).stop();
             }
         });
-        timer = new Timer(tempo, e -> );
+//        timer = new Timer(tempo, e -> );
         timer.start();
     }
 }
