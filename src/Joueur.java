@@ -11,4 +11,13 @@ public class Joueur {
     public void bouge(Case cible) {
         /* À compléter */
     }
+
+    public int getResistance(){
+        return resistance;
+    }
+
+    public CaseTraversable getCase(){
+        return c;
+    }
+
 }
