@@ -10,10 +10,4 @@ public class Porte extends CaseTraversable {
     public boolean estTraversable() {
         return !closed;
     }
-    @Override
-    public void entre(Joueur j){
-        if(!closed) {
-            joueur = j;
-        }
-    }
 }

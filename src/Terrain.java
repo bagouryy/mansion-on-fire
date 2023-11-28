@@ -61,4 +61,8 @@ public class Terrain {
     public int getLargeur(){
         return largeur;
     }
+
+    public Case[][] getCarte() {
+        return carte;
+    }
 }
