@@ -25,4 +25,9 @@ public class Hall extends CaseTraversable {
 		this.chaleur = chaleur;
 	}
 
+	public boolean containsKey(){
+		return key;
+	}
+
+
 }
