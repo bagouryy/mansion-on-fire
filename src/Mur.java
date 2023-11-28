@@ -8,5 +8,6 @@ public class Mur extends Case{
 	public boolean estTraversable() {
 		return false;
 	}
-	
+
+
 }
