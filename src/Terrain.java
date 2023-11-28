@@ -50,9 +50,11 @@ public class Terrain {
 
     public Joueur getJoueur() { return this.joueur; }
 
-    public ArrayList<CaseTraversable> getVoisinesTraversables(int lig, int col) {
-        /* À compléter */
-    }
+//    public ArrayList<CaseTraversable> getVoisinesTraversables(int lig, int col) {
+//        /* À compléter */
+//    }
+
+
 
     public int getHauteur(){
         return hauteur;
@@ -65,4 +67,9 @@ public class Terrain {
     public Case[][] getCarte() {
         return carte;
     }
+
+    public Case getCase(int l, int c){
+        return carte[l][c];
+    }
+
 }
