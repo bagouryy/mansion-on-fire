@@ -1,5 +1,5 @@
 public class Hall extends CaseTraversable {
-	public boolean key;
+	private boolean key;
 	public Hall(int l, int c){
 		super(l, c);
 	}
