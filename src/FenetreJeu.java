@@ -27,7 +27,25 @@ public class FenetreJeu extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        /* À compléter */    }
+        Case[][] carte = terrain.getCarte();
+        int lig = terrain.getJoueur().getCase().lig - 3;
+        int col = terrain.getJoueur().getCase().col - 3;
+        for (int i = 1; i < 9 + 1; i++) {
+            for (int j = 1; j < 9 + 1; j++) {
+                if((i == 1 && j == 1) || (i == 2 && j == 1) || (i == 1 && j == 2) || (i == 1 && j == 6) || (i == 1 && j == 7) || (i == 6 && j == 1) || (i == 7 && j == 1) || (i == 7 && j == 2) || (i == 6 && j == 7) || (i == 7 && j == 7) || (i == 7 && j == 6)){
+
+                }else{
+                    if(carte[lig + i][col + j] instanceof Mur){
+                        g.setColor(Color.BLACK);
+                        g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
+                    }
+                }
+            }
+        }
+
+        g.setColor(Color.GRAY);
+        g.fillOval(4*tailleCase, 4*tailleCase, tailleCase, tailleCase);
+    }
 
 
     public void ecranFinal(int n) {
