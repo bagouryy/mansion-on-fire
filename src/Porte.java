@@ -1,13 +1,21 @@
 public class Porte extends CaseTraversable {
-    public boolean closed;
+    private boolean open;
 
-    public Porte(int l, int c, boolean closed){
+    public Porte(int l, int c, boolean open){
         super(l,c);
-        this.closed = closed;
+        this.open = open;
         chaleur = 0;
     }
     @Override
     public boolean estTraversable() {
-        return !closed;
+        return open;
+    }
+
+    public void ouvrePorte() {
+        open = true;
+    }
+
+    public boolean isOpen() {
+        return open;
     }
 }
