@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="furfeux">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/furfeux.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
