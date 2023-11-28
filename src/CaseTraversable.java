@@ -1,6 +1,6 @@
 public class CaseTraversable extends Case {
-    public int chaleur;
-    public Joueur joueur;
+    protected int chaleur;
+    private Joueur joueur;
 
     public CaseTraversable(int l, int c) {
         super(l, c);
