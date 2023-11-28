@@ -24,4 +24,7 @@ public class CaseTraversable extends Case {
     }
 
 
+    public int getChaleur() {
+        return chaleur;
+    }
 }
