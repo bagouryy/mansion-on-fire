@@ -53,4 +53,12 @@ public class Terrain {
     public ArrayList<CaseTraversable> getVoisinesTraversables(int lig, int col) {
         /* À compléter */
     }
+
+    public int getHauteur(){
+        return hauteur;
+    }
+
+    public int getLargeur(){
+        return largeur;
+    }
 }
