@@ -44,6 +44,7 @@ public class Joueur {
     public void exit(){
         c.vide();
         sortie =true;
+        c = null;
     }
 
     public boolean estSortie(){return sortie;}
