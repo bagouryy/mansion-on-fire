@@ -1,24 +1,28 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class FenetreJeu extends JPanel{
+public class FenetreJeu extends JPanel implements KeyListener {
     private Terrain terrain;
-    private int tailleCase = 36;
-    private int hauteur, largeur;
-    private ArrowMovement frame;
+    private final int tailleCase = 36;
+    private final int hauteur, largeur;
+    private JFrame frame;
+    private Joueur joueur;
 
     public FenetreJeu(Terrain t) {
         this.hauteur = t.getHauteur();
         this.largeur = t.getLargeur();
         this.terrain = t;
+        this.joueur = t.getJoueur();
 
         setBackground(Color.LIGHT_GRAY);
         setPreferredSize(new Dimension(9 * tailleCase, 9 * tailleCase));
-        ArrowMovement frame = new ArrowMovement(t);
+        JFrame frame = new JFrame("Furfeux");
         this.frame = frame;
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(this);
-        frame.addKeyListener(frame);
+        frame.addKeyListener(this);
         frame.pack();
         frame.setVisible(true);
         frame.setFocusable(true);
@@ -36,7 +40,7 @@ public class FenetreJeu extends JPanel{
                 int newC = col + j;
                 if((i == 1 && j == 1) || (i == 2 && j == 1) || (i == 1 && j == 2) || (i == 1 && j == 6) || (i == 1 && j == 7) || (i == 6 && j == 1) || (i == 7 && j == 1) || (i == 7 && j == 2) || (i == 6 && j == 7) || (i == 7 && j == 7) || (i == 7 && j == 6)){
 
-                }else if( newL < carte.length && newC < carte[i].length ){
+                }else if( newL < hauteur && newC < largeur ){
                     Case curr = carte[newL][newC];
                     if(curr instanceof Mur){
                         g.setColor(Color.BLACK);
@@ -89,6 +93,29 @@ public class FenetreJeu extends JPanel{
         frame.repaint();
     }
 
+    @Override
+    public void keyPressed(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_RIGHT:
+                this.joueur.bouge(this.terrain.cible(this.joueur.getCase(), Direction.est));break;
+            case KeyEvent.VK_LEFT:
+                this.joueur.bouge(this.terrain.cible(this.joueur.getCase(), Direction.ouest));break;
+            case KeyEvent.VK_UP:
+                this.joueur.bouge(this.terrain.cible(this.joueur.getCase(), Direction.nord));break;
+            case KeyEvent.VK_DOWN:
+                this.joueur.bouge(this.terrain.cible(this.joueur.getCase(), Direction.sud));break;
+            default:break;
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
 
 
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
 }
