@@ -32,15 +32,15 @@ public class FenetreJeu extends JPanel implements KeyListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Case[][] carte = terrain.getCarte();
-        int lig = terrain.getJoueur().getCase().lig - 4;
-        int col = terrain.getJoueur().getCase().col - 4;
+        int lig = joueur.getCase().lig - 4;
+        int col = joueur.getCase().col - 4;
         for (int i = 1; i < 8 ; i++) {
             for (int j = 1; j < 8; j++) {
                 int newL = lig + i;
-                int newC = col + j;
+                int newC = col +  j;
                 if((i == 1 && j == 1) || (i == 2 && j == 1) || (i == 1 && j == 2) || (i == 1 && j == 6) || (i == 1 && j == 7) || (i == 6 && j == 1) || (i == 7 && j == 1) || (i == 7 && j == 2) || (i == 6 && j == 7) || (i == 7 && j == 7) || (i == 7 && j == 6)){
 
-                }else if( newL < hauteur && newC < largeur ){
+                }else if( newL < hauteur && newC < largeur && newL >= 0 && newC >= 0 ){
                     Case curr = carte[newL][newC];
                     if(curr instanceof Mur){
                         g.setColor(Color.BLACK);
