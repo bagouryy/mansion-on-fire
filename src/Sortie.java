@@ -12,4 +12,10 @@ public class Sortie extends CaseTraversable{
     public boolean estTraversable() {
         return true;
     }
+
+    @Override
+    public void entre(Joueur j) {
+        super.entre(j);
+        j.exit();
+    }
 }

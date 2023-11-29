@@ -29,5 +29,12 @@ public class Hall extends CaseTraversable {
 		return key;
 	}
 
-
+	@Override
+	public void entre(Joueur j) {
+		super.entre(j);
+		if(containsKey()){
+			j.takeKey();
+			key = false;
+		}
+	}
 }
