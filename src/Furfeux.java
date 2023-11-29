@@ -11,7 +11,13 @@ public class Furfeux{
     }
 
     public void tour() {
-
+        for (int i = 1; i < terrain.getHauteur() - 1; i++) {
+            for (int j = 1; j < terrain.getLargeur() - 1; j++) {
+                if(terrain.getCase(i,j) instanceof CaseTraversable){
+                    ((CaseTraversable) terrain.getCase(i,j)).brule(terrain.getVoisinesTraversables(i,j));
+                }
+            }
+        }
     }
 
     public boolean partieFinie() {
