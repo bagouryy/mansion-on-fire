@@ -11,7 +11,7 @@ public class Furfeux{
     }
 
     public void tour() {
-        /* À compléter */
+
     }
 
     public boolean partieFinie() {
