@@ -72,4 +72,19 @@ public class Terrain {
         return carte[l][c];
     }
 
+    public Case cible(Case c, Direction d) {
+        switch (d) {
+            case nord:
+                return this.getCase(c.lig - 1, c.col);
+            case sud:
+                return this.getCase(c.lig + 1, c.col);
+            case est:
+                return this.getCase(c.lig, c.col + 1);
+            case ouest:
+                return this.getCase(c.lig, c.col - 1);
+            default:
+                return null;
+        }
+    }
+
 }
