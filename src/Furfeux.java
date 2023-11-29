@@ -15,7 +15,7 @@ public class Furfeux{
     }
 
     public boolean partieFinie() {
-        return false;
+        return joueur.estSortie() || joueur.getResistance() <= 0;
     }
 
     public static void main(String[] args) {

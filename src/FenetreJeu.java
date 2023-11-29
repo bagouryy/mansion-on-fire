@@ -79,7 +79,7 @@ public class FenetreJeu extends JPanel implements KeyListener {
         }
 
         g.setColor(Color.GRAY);
-        g.fillOval(4*tailleCase, 4*tailleCase, tailleCase, tailleCase);
+        g.fillOval(4 * tailleCase, 4 * tailleCase, tailleCase, tailleCase);
     }
 
 
