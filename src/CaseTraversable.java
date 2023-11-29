@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Random;
+
 public class CaseTraversable extends Case {
     protected int chaleur;
     private Joueur joueur;
@@ -22,6 +25,22 @@ public class CaseTraversable extends Case {
         super(l, c);
         this.chaleur = chaleur;
     }
+
+    public void brule(ArrayList<CaseTraversable> voisin){
+        int sum = 0;
+        for (CaseTraversable cT: voisin) {
+            sum += cT.getChaleur();
+        }
+        Random rand = new Random();
+        int ligne = rand.nextInt(199);
+        if (ligne < sum){
+            if(chaleur != 10){chaleur++;}
+        }else if(ligne > 190){
+            if(chaleur != 0){chaleur--;}
+        }
+
+    }
+
 
 
     public int getChaleur() {
