@@ -1,13 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-public class FenetreJeu extends JPanel implements KeyListener{
+public class FenetreJeu extends JPanel{
     private Terrain terrain;
     private int tailleCase = 36;
     private int hauteur, largeur;
-    private KeyListenerTest frame;
+    private ArrowMovement frame;
 
     public FenetreJeu(Terrain t) {
         this.hauteur = t.getHauteur();
@@ -16,16 +14,15 @@ public class FenetreJeu extends JPanel implements KeyListener{
 
         setBackground(Color.LIGHT_GRAY);
         setPreferredSize(new Dimension(9 * tailleCase, 9 * tailleCase));
-
-        KeyListenerTest frame = new KeyListenerTest();
+        ArrowMovement frame = new ArrowMovement(t);
         this.frame = frame;
-        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.frame.getContentPane().add(this);
-        this.frame.addKeyListener(this);
-        this.frame.pack();
-        this.frame.setVisible(true);
-        this.frame.setFocusable(true);
-        this.frame.requestFocusInWindow();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add(this);
+        frame.addKeyListener(frame);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setFocusable(true);
+        frame.requestFocusInWindow();
     }
 
     public void paintComponent(Graphics g) {
@@ -92,62 +89,6 @@ public class FenetreJeu extends JPanel implements KeyListener{
         frame.repaint();
     }
 
-    /**
-    @Override
-    public void keyTyped(KeyEvent e) {
-        int newL, newC;
-        Case cible;
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_RIGHT:
-                newL = terrain.getJoueur().getCase().lig;
-                newC = terrain.getJoueur().getCase().col + 1;
-                break;
-            case KeyEvent.VK_LEFT:
-                newL = terrain.getJoueur().getCase().lig;
-                newC = terrain.getJoueur().getCase().col - 1;
-                break;
-            case KeyEvent.VK_UP:
-                newL = terrain.getJoueur().getCase().lig - 1;
-                newC = terrain.getJoueur().getCase().col;
-                break;
-            case KeyEvent.VK_DOWN:
-                newL = terrain.getJoueur().getCase().lig + 1;
-                newC = terrain.getJoueur().getCase().col;
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + e.getKeyCode());
-        }
-        cible = terrain.getCase(newL,newC);
-        terrain.getJoueur().bouge(cible);
 
-        repaint();
-    }
-
-     */
-
-    public void keyTyped(KeyEvent e) {
-        System.out.println("Key Typed: " + e.getKeyChar());
-        int newL;
-        int newC;
-        Case cible;
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_RIGHT:
-            case KeyEvent.VK_LEFT:
-            case KeyEvent.VK_UP:
-            case KeyEvent.VK_DOWN:
-                System.out.print("Typed");
-                break;
-        }
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
 
 }
