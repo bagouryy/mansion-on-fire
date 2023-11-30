@@ -51,7 +51,7 @@ public class Terrain {
     public Joueur getJoueur() { return this.joueur; }
 
     public ArrayList<CaseTraversable> getVoisinesTraversables(int lig, int col) {
-        ArrayList<CaseTraversable> res = new ArrayList<CaseTraversable>();
+        ArrayList<CaseTraversable> res = new ArrayList<>();
         for (int i = -1; i < 2 ; i++) {
             for (int j = -1; j < 2; j++) {
                 if(carte[lig + i][col + j] instanceof CaseTraversable){
