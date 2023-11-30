@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class Furfeux{
 
@@ -18,6 +19,7 @@ public class Furfeux{
                 }
             }
         }
+        joueur.burn(joueur.getCase().getChaleur());
     }
 
     public boolean partieFinie() {
