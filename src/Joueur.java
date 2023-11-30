@@ -22,6 +22,7 @@ public class Joueur {
             this.c.vide();
             ((CaseTraversable)cible).entre(this);
             this.c = (CaseTraversable) cible;
+            resistance -= c.getChaleur();
         }
     }
 
@@ -48,6 +49,8 @@ public class Joueur {
     }
 
     public boolean estSortie(){return sortie;}
+
+    public int getKeys(){return keys;}
 
 
 
