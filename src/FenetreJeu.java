@@ -21,7 +21,26 @@ public class FenetreJeu extends JPanel implements KeyListener {
         JFrame frame = new JFrame("Furfeux");
         this.frame = frame;
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(this);
+
+        JPanel InfoBoard = new JPanel();
+        InfoBoard.setPreferredSize(new Dimension(9 * tailleCase , 50 ));
+        InfoBoard.setBackground(Color.DARK_GRAY);
+        JLabel score = new JLabel("Health: " + joueur.getResistance());
+        score.setFont(new Font("Arial",Font.PLAIN,20));
+        score.setAlignmentX(Component.LEFT_ALIGNMENT);
+        InfoBoard.add(score,BorderLayout.WEST);
+//        frame.add(panel1,BorderLayout.SOUTH);
+//        panel1.setVisible(true);
+
+        JLabel key = new JLabel("Keys: " + joueur.getKeys());
+        key.setFont(new Font("Arial",Font.PLAIN,20));
+        key.setAlignmentX(Component.LEFT_ALIGNMENT);
+        InfoBoard.add(key,BorderLayout.EAST);
+
+
+
+        frame.getContentPane().add(InfoBoard,BorderLayout.NORTH);
+        frame.getContentPane().add(this,BorderLayout.SOUTH);
         frame.addKeyListener(this);
         frame.pack();
         frame.setVisible(true);
@@ -106,6 +125,8 @@ public class FenetreJeu extends JPanel implements KeyListener {
                 this.joueur.bouge(this.terrain.cible(this.joueur.getCase(), Direction.sud));break;
             default:break;
         }
+
+        repaint();
     }
 
     @Override
