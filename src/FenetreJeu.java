@@ -9,6 +9,9 @@ public class FenetreJeu extends JPanel implements KeyListener {
     private final int hauteur, largeur;
     private JFrame frame;
     private Joueur joueur;
+    private JLabel key;
+    private JLabel score;
+
 
     public FenetreJeu(Terrain t) {
         this.hauteur = t.getHauteur();
@@ -25,14 +28,14 @@ public class FenetreJeu extends JPanel implements KeyListener {
         JPanel InfoBoard = new JPanel();
         InfoBoard.setPreferredSize(new Dimension(9 * tailleCase , 50 ));
         InfoBoard.setBackground(Color.DARK_GRAY);
-        JLabel score = new JLabel("Health: " + joueur.getResistance());
+        score = new JLabel("Health: " + joueur.getResistance());
         score.setFont(new Font("Arial",Font.PLAIN,20));
         score.setAlignmentX(Component.LEFT_ALIGNMENT);
         InfoBoard.add(score,BorderLayout.WEST);
 //        frame.add(panel1,BorderLayout.SOUTH);
 //        panel1.setVisible(true);
 
-        JLabel key = new JLabel("Keys: " + joueur.getKeys());
+        key = new JLabel("Keys: " + joueur.getKeys());
         key.setFont(new Font("Arial",Font.PLAIN,20));
         key.setAlignmentX(Component.LEFT_ALIGNMENT);
         InfoBoard.add(key,BorderLayout.EAST);
@@ -138,5 +141,15 @@ public class FenetreJeu extends JPanel implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    public void updateInfoBoard(int health, int keys) {
+        score.setText("Health: " + health);
+
+        key.setText("Keys: " + keys);
+    }
+
+    public void updateGUI() {
+        this.updateInfoBoard(joueur.getResistance(), joueur.getKeys());
     }
 }
