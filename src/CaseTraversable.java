@@ -46,4 +46,15 @@ public class CaseTraversable extends Case {
     public int getChaleur() {
         return chaleur;
     }
+
+    public void editChaleur(int i){
+        int res = chaleur + i;
+        if(res < 0){
+            chaleur = 0;
+        }else if(res > 10){
+            chaleur = 10;
+        }else{
+            chaleur = res;
+        }
+    }
 }
