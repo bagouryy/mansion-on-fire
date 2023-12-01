@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Furfeux{
 
@@ -27,12 +28,18 @@ public class Furfeux{
 
     public static void main(String[] args) {
         int tempo = 100;
-        Furfeux jeu = new Furfeux("manoir.txt");
+        Furfeux jeu = new Furfeux("new.txt");
         FenetreJeu graphic = new FenetreJeu(jeu.terrain);
+        AtomicInteger bucketTimer = new AtomicInteger();
         Timer timer = new Timer(tempo, e -> {
             jeu.tour();
             graphic.updateGUI();
             graphic.repaint();
+            bucketTimer.getAndIncrement();
+            if(bucketTimer.get() == 30){
+                jeu.getJoueur().giveBuckets();
+                bucketTimer.set(0);
+            }
             if (jeu.partieFinie()) {
                 graphic.ecranFinal(Math.max(0, jeu.joueur.getResistance()));
                 ((Timer)e.getSource()).stop();
@@ -42,6 +49,9 @@ public class Furfeux{
         timer.start();
     }
 
+    private Joueur getJoueur() {
+        return joueur;
+    }
 
 
 }
