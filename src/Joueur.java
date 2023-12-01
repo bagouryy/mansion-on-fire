@@ -3,6 +3,7 @@ public class Joueur {
     private int resistance;
     private int keys;
     private boolean sortie;
+    private int buckets;
 
     public Joueur(CaseTraversable c, int r, int k) {
         this.c = c;
@@ -54,7 +55,18 @@ public class Joueur {
 
     public int getKeys(){return keys;}
 
+    public void giveBuckets(){
+        buckets++;
+    }
+    public void useBucket(){
+        if(buckets > 0) {
+            --buckets;
+        }
+    }
 
 
 
+    public int getBucket() {
+        return buckets;
+    }
 }

@@ -35,7 +35,7 @@ public class FenetreJeu extends JPanel implements KeyListener {
 //        frame.add(panel1,BorderLayout.SOUTH);
 //        panel1.setVisible(true);
 
-        key = new JLabel("Keys: " + joueur.getKeys());
+        key = new JLabel("Keys: " + joueur.getKeys() + " Bucket: " + joueur.getBucket());
         key.setFont(new Font("Arial",Font.PLAIN,20));
         key.setAlignmentX(Component.LEFT_ALIGNMENT);
         InfoBoard.add(key,BorderLayout.EAST);
@@ -151,34 +151,38 @@ public class FenetreJeu extends JPanel implements KeyListener {
 
     }
 
-    public void updateInfoBoard(int health, int keys) {
-        score.setText("Health: " + health);
+    public void updateInfoBoard(int health, int keys, int buckets) {
+        int res = Math.max(health, 0);
+        score.setText("Health: " + res);
 
-        key.setText("Keys: " + keys);
+        key.setText("Keys: " + keys + " Buckets: " + buckets);
     }
 
     public void updateGUI() {
-        this.updateInfoBoard(joueur.getResistance(), joueur.getKeys());
+        this.updateInfoBoard(joueur.getResistance(), joueur.getKeys(), joueur.getBucket());
     }
 
-    public void drop_bucket(CaseTraversable c){
-        int lig = c.lig;
-        int col = c.col;
+    public void drop_bucket(CaseTraversable c) {
+        if (joueur.getBucket() > 0) {
+            int lig = c.lig;
+            int col = c.col;
 
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                int newLig = lig + i;
-                int newCol = col + j;
-                if (i != 0 || j != 0) { // Skip the center cell
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    int newLig = lig + i;
+                    int newCol = col + j;
+                    if (i != 0 || j != 0) { // Skip the center cell
 
-                    if (terrain.getCase(newLig, newCol) instanceof CaseTraversable) {
-                        int chaleur = (i != 0 && j != 0) ? -5 : -7;
-                        ((CaseTraversable) terrain.getCase(newLig, newCol)).editChaleur(chaleur);
+                        if (terrain.getCase(newLig, newCol) instanceof CaseTraversable) {
+                            int chaleur = (i != 0 && j != 0) ? -5 : -7;
+                            ((CaseTraversable) terrain.getCase(newLig, newCol)).editChaleur(chaleur);
+                        }
+                    } else {
+                        ((CaseTraversable) terrain.getCase(newLig, newCol)).editChaleur(-10);
                     }
-                }else{
-                    ((CaseTraversable) terrain.getCase(newLig, newCol)).editChaleur(-10);
                 }
             }
+            joueur.useBucket();
         }
     }
 }
