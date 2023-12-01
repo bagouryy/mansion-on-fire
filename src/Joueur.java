@@ -46,7 +46,7 @@ public class Joueur {
 
     public void exit(){
         c.vide();
-        sortie =true;
+        sortie = true;
         c = null;
     }
 

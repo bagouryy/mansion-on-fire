@@ -132,6 +132,8 @@ public class FenetreJeu extends JPanel implements KeyListener {
                 this.joueur.bouge(this.terrain.cible(this.joueur.getCase(), Direction.nord));break;
             case KeyEvent.VK_DOWN:
                 this.joueur.bouge(this.terrain.cible(this.joueur.getCase(), Direction.sud));break;
+            case KeyEvent.VK_SPACE:
+                this.drop_bucket(joueur.getCase());break;
             default:break;
         }
 
@@ -157,5 +159,26 @@ public class FenetreJeu extends JPanel implements KeyListener {
 
     public void updateGUI() {
         this.updateInfoBoard(joueur.getResistance(), joueur.getKeys());
+    }
+
+    public void drop_bucket(CaseTraversable c){
+        int lig = c.lig;
+        int col = c.col;
+
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                int newLig = lig + i;
+                int newCol = col + j;
+                if (i != 0 || j != 0) { // Skip the center cell
+
+                    if (terrain.getCase(newLig, newCol) instanceof CaseTraversable) {
+                        int chaleur = (i != 0 && j != 0) ? -5 : -7;
+                        ((CaseTraversable) terrain.getCase(newLig, newCol)).editChaleur(chaleur);
+                    }
+                }else{
+                    ((CaseTraversable) terrain.getCase(newLig, newCol)).editChaleur(-10);
+                }
+            }
+        }
     }
 }
