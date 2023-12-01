@@ -26,7 +26,9 @@ public class Terrain {
                     switch (ch) {
                         case '#': cc = new Mur(l, c); break;
                         case ' ': cc = new Hall(l, c); break;
-                        case '+': cc = new Hall(l, c, true); break;
+                        case '+': cc = new Hall(l, c, true,false); break;
+                        case 'a': cc = new Hall(l,c, false,true); break;
+                        case 'à': cc = new Hall(l,c,true,true);break;
                         case '1': case '2': case '3': case '4':
                             cc = new Hall(l, c, (int)ch-(int)'0'); break;
                         case 'O': cc = new Sortie(l, c, 0); break;
