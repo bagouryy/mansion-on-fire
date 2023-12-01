@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 
 public class Furfeux{
 
@@ -32,6 +31,7 @@ public class Furfeux{
         FenetreJeu graphic = new FenetreJeu(jeu.terrain);
         Timer timer = new Timer(tempo, e -> {
             jeu.tour();
+            graphic.updateGUI();
             graphic.repaint();
             if (jeu.partieFinie()) {
                 graphic.ecranFinal(Math.max(0, jeu.joueur.getResistance()));
@@ -41,4 +41,7 @@ public class Furfeux{
 //        timer = new Timer(tempo, e -> );
         timer.start();
     }
+
+
+
 }
