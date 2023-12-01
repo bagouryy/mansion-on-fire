@@ -42,6 +42,8 @@ public class Joueur {
 
     public void takeKey(){this.keys++;}
 
+    public void takeApple(){this.resistance += 100;}
+
     public void exit(){
         c.vide();
         sortie =true;

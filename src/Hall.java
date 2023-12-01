@@ -43,5 +43,9 @@ public class Hall extends CaseTraversable {
 			j.takeKey();
 			key = false;
 		}
+		if(containsApple()){
+			j.takeApple();
+			apple = false;
+		}
 	}
 }

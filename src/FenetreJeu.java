@@ -76,7 +76,13 @@ public class FenetreJeu extends JPanel implements KeyListener {
                         if(((Hall) curr).containsKey()){
                             g.setColor(Color.GRAY);
                             g.fillRect(j * tailleCase + 12, i * tailleCase + 12, tailleCase/3, tailleCase/3);
-
+                        }
+                        if(((Hall) curr).containsApple()) {
+                            g.setColor(Color.RED);
+                            int appleSize = tailleCase / 3;
+                            int appleX = (j * tailleCase) + (2 * tailleCase / 3);
+                            int appleY = (i * tailleCase);
+                            g.fillOval(appleX, appleY, appleSize, appleSize);
                         }
                     }else if(curr instanceof Porte){
                         if (!(((Porte) curr).isOpen())){
