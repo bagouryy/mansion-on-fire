@@ -36,7 +36,7 @@ public class Furfeux{
             graphic.updateGUI();
             graphic.repaint();
             bucketTimer.getAndIncrement();
-            if(bucketTimer.get() == 30){
+            if(bucketTimer.get() == 50){
                 jeu.getJoueur().giveBuckets();
                 bucketTimer.set(0);
             }

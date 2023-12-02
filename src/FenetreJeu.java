@@ -4,13 +4,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class FenetreJeu extends JPanel implements KeyListener {
-    private Terrain terrain;
+    private final Terrain terrain;
     private final int tailleCase = 36;
     private final int hauteur, largeur;
-    private JFrame frame;
-    private Joueur joueur;
-    private JLabel key;
-    private JLabel score;
+    private final JFrame frame;
+    private final Joueur joueur;
+    private final JLabel key;
+    private final JLabel score;
 
 
     public FenetreJeu(Terrain t) {
@@ -32,8 +32,6 @@ public class FenetreJeu extends JPanel implements KeyListener {
         score.setFont(new Font("Arial",Font.PLAIN,20));
         score.setAlignmentX(Component.LEFT_ALIGNMENT);
         InfoBoard.add(score,BorderLayout.WEST);
-//        frame.add(panel1,BorderLayout.SOUTH);
-//        panel1.setVisible(true);
 
         key = new JLabel("Keys: " + joueur.getKeys() + " Bucket: " + joueur.getBucket());
         key.setFont(new Font("Arial",Font.PLAIN,20));
@@ -114,7 +112,7 @@ public class FenetreJeu extends JPanel implements KeyListener {
     public void ecranFinal(int n) {
         frame.remove(this);
         JLabel label = new JLabel("Score " + n);
-        label.setFont(new Font("Verdana", 1, 20));
+        label.setFont(new Font("Verdana", Font.PLAIN, 20));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setSize(this.getSize());
         frame.getContentPane().add(label);

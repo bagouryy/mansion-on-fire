@@ -51,10 +51,6 @@ public class CaseTraversable extends Case {
         int res = chaleur + i;
         if(res < 0){
             chaleur = 0;
-        }else if(res > 10){
-            chaleur = 10;
-        }else{
-            chaleur = res;
-        }
+        }else chaleur = Math.min(res, 10);
     }
 }
