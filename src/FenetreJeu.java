@@ -1,7 +1,10 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 
 public class FenetreJeu extends JPanel implements KeyListener {
     private final Terrain terrain;
@@ -11,7 +14,7 @@ public class FenetreJeu extends JPanel implements KeyListener {
     private final Joueur joueur;
     private final JLabel key;
     private final JLabel score;
-
+    private Image keyImg,appleImg,doorImg,character,wallImg;
 
     public FenetreJeu(Terrain t) {
         this.hauteur = t.getHauteur();
@@ -24,6 +27,17 @@ public class FenetreJeu extends JPanel implements KeyListener {
         JFrame frame = new JFrame("Furfeux");
         this.frame = frame;
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        try {
+            keyImg = ImageIO.read(new File("key-icon.png"));
+            appleImg = ImageIO.read(new File("apple-icon.png"));
+            doorImg = ImageIO.read(new File("door-icon.png"));
+            character = ImageIO.read(new File("sonic-icon.png"));
+            wallImg = ImageIO.read(new File("wall-icon.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         JPanel InfoBoard = new JPanel();
         InfoBoard.setPreferredSize(new Dimension(9 * tailleCase , 50 ));
@@ -64,7 +78,8 @@ public class FenetreJeu extends JPanel implements KeyListener {
                     Case curr = carte[newL][newC];
                     if(curr instanceof Mur){
                         g.setColor(Color.BLACK);
-                        g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
+//                        g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
+                        g.drawImage(wallImg,j * tailleCase, i * tailleCase, tailleCase, tailleCase,this);
                     } else if(curr instanceof Hall){
                         g.setColor(Color.WHITE);
                         g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
@@ -73,19 +88,22 @@ public class FenetreJeu extends JPanel implements KeyListener {
                         g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
                         if(((Hall) curr).containsKey()){
                             g.setColor(Color.GRAY);
-                            g.fillRect(j * tailleCase + 12, i * tailleCase + 12, tailleCase/3, tailleCase/3);
+//                            g.fillRect(j * tailleCase + 12, i * tailleCase + 12, tailleCase/3, tailleCase/3);
+                            g.drawImage(keyImg,j * tailleCase ,i * tailleCase,25,25,this);
                         }
                         if(((Hall) curr).containsApple()) {
                             g.setColor(Color.RED);
                             int appleSize = tailleCase / 3;
                             int appleX = (j * tailleCase) + (2 * tailleCase / 3);
                             int appleY = (i * tailleCase);
-                            g.fillOval(appleX, appleY, appleSize, appleSize);
+                            g.drawImage(appleImg,j * tailleCase + 18, i * tailleCase + 18,14,14,this);
+//                            g.fillOval(appleX, appleY, appleSize, appleSize);
                         }
                     }else if(curr instanceof Porte){
                         if (!(((Porte) curr).isOpen())){
                             g.setColor(Color.GREEN);
-                            g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
+                            g.drawImage(doorImg,j * tailleCase, i * tailleCase, tailleCase, tailleCase,this);
+//                            g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
                         }else{
                             g.setColor(Color.WHITE);
                             g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
@@ -105,8 +123,14 @@ public class FenetreJeu extends JPanel implements KeyListener {
         }
 
         g.setColor(Color.GRAY);
-        g.fillOval(4 * tailleCase, 4 * tailleCase, tailleCase, tailleCase);
+//        g.fillOval(4 * tailleCase, 4 * tailleCase, tailleCase, tailleCase);
+        if(this.joueur.isEast()) {
+            g.drawImage(character, 4 * tailleCase, 4 * tailleCase, tailleCase, tailleCase, this);
+        }else {
+            g.drawImage(character, 4 * tailleCase + tailleCase, 4 * tailleCase, -tailleCase, tailleCase, this);
+        }
     }
+
 
 
     public void ecranFinal(int n) {
@@ -123,9 +147,11 @@ public class FenetreJeu extends JPanel implements KeyListener {
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_RIGHT:
-                this.joueur.bouge(this.terrain.cible(this.joueur.getCase(), Direction.est));break;
+                this.joueur.bouge(this.terrain.cible(this.joueur.getCase(), Direction.est));
+                this.joueur.setEast();break;
             case KeyEvent.VK_LEFT:
-                this.joueur.bouge(this.terrain.cible(this.joueur.getCase(), Direction.ouest));break;
+                this.joueur.bouge(this.terrain.cible(this.joueur.getCase(), Direction.ouest));
+                this.joueur.setWest();break;
             case KeyEvent.VK_UP:
                 this.joueur.bouge(this.terrain.cible(this.joueur.getCase(), Direction.nord));break;
             case KeyEvent.VK_DOWN:

@@ -4,6 +4,7 @@ public class Joueur {
     private int keys;
     private boolean sortie;
     private int buckets;
+    private boolean east;
 
     public Joueur(CaseTraversable c, int r, int k) {
         this.c = c;
@@ -69,4 +70,16 @@ public class Joueur {
     public int getBucket() {
         return buckets;
     }
+    public void setEast(){
+        east = true;
+    }
+
+    public void setWest() {
+        east = false;
+    }
+
+    public boolean isEast(){
+        return east;
+    }
+
 }
