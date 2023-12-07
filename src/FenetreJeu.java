@@ -14,7 +14,9 @@ public class FenetreJeu extends JPanel implements KeyListener {
     private final Joueur joueur;
     private final JLabel key;
     private final JLabel score;
-    private Image keyImg,appleImg,doorImg,character,wallImg;
+    private final JLabel info;
+
+    private Image keyImg,appleImg,doorImg,character,wallImg,floorImg,fireImg,portalImg;
 
     public FenetreJeu(Terrain t) {
         this.hauteur = t.getHauteur();
@@ -29,11 +31,15 @@ public class FenetreJeu extends JPanel implements KeyListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         try {
-            keyImg = ImageIO.read(new File("key-icon.png"));
-            appleImg = ImageIO.read(new File("apple-icon.png"));
-            doorImg = ImageIO.read(new File("door-icon.png"));
-            character = ImageIO.read(new File("sonic-icon.png"));
-            wallImg = ImageIO.read(new File("wall-icon.jpg"));
+            keyImg = ImageIO.read(new File("media/key-icon.png"));
+            appleImg = ImageIO.read(new File("media/apple-icon.png"));
+            doorImg = ImageIO.read(new File("media/door-icon.png"));
+            character = ImageIO.read(new File("media/sonic-icon.png"));
+            wallImg = ImageIO.read(new File("media/wall-icon.png"));
+            floorImg = ImageIO.read(new File("media/floor-icon2.png"));
+            fireImg = ImageIO.read(new File("media/fire-icon2.png"));
+            portalImg = ImageIO.read(new File("media/portal-icon.png"));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -41,7 +47,7 @@ public class FenetreJeu extends JPanel implements KeyListener {
 
         JPanel InfoBoard = new JPanel();
         InfoBoard.setPreferredSize(new Dimension(9 * tailleCase , 50 ));
-        InfoBoard.setBackground(Color.DARK_GRAY);
+        InfoBoard.setBackground(Color.BLUE);
         score = new JLabel("Health: " + joueur.getResistance());
         score.setFont(new Font("Arial",Font.PLAIN,20));
         score.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -52,10 +58,17 @@ public class FenetreJeu extends JPanel implements KeyListener {
         key.setAlignmentX(Component.LEFT_ALIGNMENT);
         InfoBoard.add(key,BorderLayout.EAST);
 
-
+        JPanel Info = new JPanel();
+        Info.setPreferredSize(new Dimension(9 * tailleCase , 50 ));
+        Info.setBackground(Color.RED);
+        info = new JLabel("Press 'M' for Mario, 'S' for Sonic");
+        info.setFont(new Font("Arial",Font.PLAIN,20));
+        Info.add(info);
 
         frame.getContentPane().add(InfoBoard,BorderLayout.NORTH);
-        frame.getContentPane().add(this,BorderLayout.SOUTH);
+        frame.getContentPane().add(this);
+        frame.getContentPane().add(Info,BorderLayout.SOUTH);
+
         frame.addKeyListener(this);
         frame.pack();
         frame.setVisible(true);
@@ -72,8 +85,7 @@ public class FenetreJeu extends JPanel implements KeyListener {
             for (int j = 1; j < 8; j++) {
                 int newL = lig + i;
                 int newC = col +  j;
-                if((i == 1 && j == 1) || (i == 2 && j == 1) || (i == 1 && j == 2) || (i == 1 && j == 6) || (i == 1 && j == 7) || (i == 6 && j == 1) || (i == 7 && j == 1) || (i == 7 && j == 2) || (i == 6 && j == 7) || (i == 7 && j == 7) || (i == 7 && j == 6)){
-
+                if((i == 1 && j == 1) || (i == 2 && j == 1) || (i == 1 && j == 2) || (i == 1 && j == 6) || (i == 1 && j == 7) || (i == 6 && j == 1) || (i == 7 && j == 1) || (i == 7 && j == 2) || (i == 6 && j == 7) || (i == 7 && j == 7) || (i == 7 && j == 6) ||(i == 2 && j == 7) ){
                 }else if( newL < hauteur && newC < largeur && newL >= 0 && newC >= 0 ){
                     Case curr = carte[newL][newC];
                     if(curr instanceof Mur){
@@ -82,10 +94,12 @@ public class FenetreJeu extends JPanel implements KeyListener {
                         g.drawImage(wallImg,j * tailleCase, i * tailleCase, tailleCase, tailleCase,this);
                     } else if(curr instanceof Hall){
                         g.setColor(Color.WHITE);
-                        g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
+//                        g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
+                        g.drawImage(floorImg,j * tailleCase, i * tailleCase, tailleCase, tailleCase,this);
                         int intensity = ((Hall) curr).getChaleur();
                         g.setColor(new Color(255,0,0, intensity * 25));
-                        g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
+//                        g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
+                        g.drawImage(fireImg,j * tailleCase ,i * tailleCase + tailleCase,tailleCase,-(int)3.6 * intensity, this);
                         if(((Hall) curr).containsKey()){
                             g.setColor(Color.GRAY);
 //                            g.fillRect(j * tailleCase + 12, i * tailleCase + 12, tailleCase/3, tailleCase/3);
@@ -106,17 +120,18 @@ public class FenetreJeu extends JPanel implements KeyListener {
 //                            g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
                         }else{
                             g.setColor(Color.WHITE);
-                            g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
-
+//                            g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
+                            g.drawImage(floorImg,j * tailleCase, i * tailleCase, tailleCase, tailleCase,this);
                             int intensity = ((Porte) curr).getChaleur();
-                            g.setColor(new Color(255,0,0, intensity * 25));
-                            g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
+                            g.drawImage(fireImg,j * tailleCase ,i * tailleCase + tailleCase,tailleCase,-(int)3.6 * intensity, this);
                         }
                         g.setColor(Color.BLACK);
                         g.drawRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
                     }else if(curr instanceof Sortie){
                         g.setColor(Color.BLUE);
-                        g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
+//                        g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
+                        g.drawImage(floorImg,j * tailleCase, i * tailleCase, tailleCase, tailleCase,this);
+                        g.drawImage(portalImg,j * tailleCase, i * tailleCase, tailleCase, tailleCase,this);
                     }
                 }
             }
@@ -158,6 +173,18 @@ public class FenetreJeu extends JPanel implements KeyListener {
                 this.joueur.bouge(this.terrain.cible(this.joueur.getCase(), Direction.sud));break;
             case KeyEvent.VK_SPACE:
                 this.drop_bucket(joueur.getCase());break;
+            case KeyEvent.VK_M:
+                try {
+                    character = ImageIO.read(new File("media/mario-icon.png"));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }break;
+            case KeyEvent.VK_S:
+                try {
+                    character = ImageIO.read(new File("media/sonic-icon.png"));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }break;
             default:break;
         }
 

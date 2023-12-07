@@ -28,7 +28,7 @@ public class Furfeux{
 
     public static void main(String[] args) {
         int tempo = 100;
-        Furfeux jeu = new Furfeux("new.txt");
+        Furfeux jeu = new Furfeux("terrains/new.txt");
         FenetreJeu graphic = new FenetreJeu(jeu.terrain);
         AtomicInteger bucketTimer = new AtomicInteger();
         Timer timer = new Timer(tempo, e -> {
