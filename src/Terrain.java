@@ -84,16 +84,17 @@ public class Terrain {
     }
 
     public Case cible(Case c, Direction d) {
+        // Utilise un switch pour gérer les différentes directions
         switch (d) {
-            case nord:
+            case nord: // Si la direction est nord, renvoie la case située au-dessus de la case actuelle
                 return this.getCase(c.lig - 1, c.col);
-            case sud:
+            case sud: // Si la direction est sud, renvoie la case située en-dessous de la case actuelle
                 return this.getCase(c.lig + 1, c.col);
-            case est:
+            case est: // Si la direction est est, renvoie la case située à droite de la case actuelle
                 return this.getCase(c.lig, c.col + 1);
-            case ouest:
+            case ouest: // Si la direction est ouest, renvoie la case située à gauche de la case actuelle
                 return this.getCase(c.lig, c.col - 1);
-            default:
+            default: // Si la direction n'est aucune des options ci-dessus, renvoie null
                 return null;
         }
     }

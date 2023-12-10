@@ -10,9 +10,9 @@ public class FenetreJeu extends JPanel implements KeyListener {
     private final Terrain terrain;
     private final int tailleCase = 36;
     private final int hauteur, largeur;
-    private final JFrame frame;
+    private final JFrame frame; // fenetre
     private final Joueur joueur;
-    private final JLabel key;
+    private final JLabel key;//"etiquette" graphique
     private final JLabel score;
     private final JLabel info;
 
@@ -24,12 +24,14 @@ public class FenetreJeu extends JPanel implements KeyListener {
         this.terrain = t;
         this.joueur = t.getJoueur();
 
-        setBackground(Color.LIGHT_GRAY);
+        setBackground(Color.LIGHT_GRAY);//configuration du panneau
         setPreferredSize(new Dimension(9 * tailleCase, 9 * tailleCase));
-        JFrame frame = new JFrame("Furfeux");
+
+        JFrame frame = new JFrame("Furfeux"); // Création d'une nouvelle fenêtre (JFrame) avec le titre "Furfeux"
         this.frame = frame;
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        // Chargement des images à partir de fichiers
         try {
             keyImg = ImageIO.read(new File("media/key-icon.png"));
             appleImg = ImageIO.read(new File("media/apple-icon.png"));
@@ -44,32 +46,35 @@ public class FenetreJeu extends JPanel implements KeyListener {
             e.printStackTrace();
         }
 
-
+        // configuration du panneau d'information ( en haut )
         JPanel InfoBoard = new JPanel();
         InfoBoard.setPreferredSize(new Dimension(9 * tailleCase , 50 ));
         InfoBoard.setBackground(Color.BLUE);
+        // Label pour afficher le score du joueur
         score = new JLabel("Health: " + joueur.getResistance());
         score.setFont(new Font("Arial",Font.PLAIN,20));
         score.setAlignmentX(Component.LEFT_ALIGNMENT);
         InfoBoard.add(score,BorderLayout.WEST);
-
+        //Label pour afficher le nombre de clés et seaux du joueur
         key = new JLabel("Keys: " + joueur.getKeys() + " Bucket: " + joueur.getBucket());
         key.setFont(new Font("Arial",Font.PLAIN,20));
         key.setAlignmentX(Component.LEFT_ALIGNMENT);
         InfoBoard.add(key,BorderLayout.EAST);
-
+        // configuration du panneau d'information ( en bas )
         JPanel Info = new JPanel();
         Info.setPreferredSize(new Dimension(9 * tailleCase , 50 ));
         Info.setBackground(Color.RED);
+        //Label pour afficher des instructions ou informations suplémentaires
         info = new JLabel("Press 'M' for Mario, 'S' for Sonic");
         info.setFont(new Font("Arial",Font.PLAIN,20));
         Info.add(info);
-
+        // Ajout des panneaux à la fenêtre principale
         frame.getContentPane().add(InfoBoard,BorderLayout.NORTH);
         frame.getContentPane().add(this);
         frame.getContentPane().add(Info,BorderLayout.SOUTH);
-
+        // // Enregistrement de la classe courante comme KeyListener
         frame.addKeyListener(this);
+        //Configuration et affichage de la fenêtre
         frame.pack();
         frame.setVisible(true);
         frame.setFocusable(true);
@@ -77,16 +82,19 @@ public class FenetreJeu extends JPanel implements KeyListener {
     }
 
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+        super.paintComponent(g);// Appelle la méthode paintComponent de la classe mère pour effectuer les opérations de base de dessin
         Case[][] carte = terrain.getCarte();
-        int lig = joueur.getCase().lig - 4;
+        int lig = joueur.getCase().lig - 4; // centrer la vue sur le joueur
         int col = joueur.getCase().col - 4;
         for (int i = 1; i < 8 ; i++) {
             for (int j = 1; j < 8; j++) {
                 int newL = lig + i;
                 int newC = col +  j;
+                // Vérifie les positions spécifiques où rien ne doit être affiché (espaces vides dans la grille)
                 if((i == 1 && j == 1) || (i == 2 && j == 1) || (i == 1 && j == 2) || (i == 1 && j == 6) || (i == 1 && j == 7) || (i == 6 && j == 1) || (i == 7 && j == 1) || (i == 7 && j == 2) || (i == 6 && j == 7) || (i == 7 && j == 7) || (i == 7 && j == 6) ||(i == 2 && j == 7) ){
+                    // Ne rien faire si c'est une position spécifique
                 }else if( newL < hauteur && newC < largeur && newL >= 0 && newC >= 0 ){
+                    // Vérifie si les indices ne dépassent pas les limites de la carte
                     Case curr = carte[newL][newC];
                     if(curr instanceof Mur){
                         g.setColor(Color.BLACK);
@@ -96,15 +104,21 @@ public class FenetreJeu extends JPanel implements KeyListener {
                         g.setColor(Color.WHITE);
 //                        g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
                         g.drawImage(floorImg,j * tailleCase, i * tailleCase, tailleCase, tailleCase,this);
+
+                        // gestion de la chaleur dans le couloir
                         int intensity = ((Hall) curr).getChaleur();
                         g.setColor(new Color(255,0,0, intensity * 25));
 //                        g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
                         g.drawImage(fireImg,j * tailleCase ,i * tailleCase + tailleCase,tailleCase,-(int)3.6 * intensity, this);
+
+                        // Affiche une clé  si la case contient une clé
                         if(((Hall) curr).containsKey()){
                             g.setColor(Color.GRAY);
 //                            g.fillRect(j * tailleCase + 12, i * tailleCase + 12, tailleCase/3, tailleCase/3);
                             g.drawImage(keyImg,j * tailleCase ,i * tailleCase,25,25,this);
                         }
+
+                        // Affiche une pomme si la case contient une pomme
                         if(((Hall) curr).containsApple()) {
                             g.setColor(Color.RED);
                             int appleSize = tailleCase / 3;
@@ -114,20 +128,25 @@ public class FenetreJeu extends JPanel implements KeyListener {
 //                            g.fillOval(appleX, appleY, appleSize, appleSize);
                         }
                     }else if(curr instanceof Porte){
+                        // affiche une porte
                         if (!(((Porte) curr).isOpen())){
                             g.setColor(Color.GREEN);
                             g.drawImage(doorImg,j * tailleCase, i * tailleCase, tailleCase, tailleCase,this);
 //                            g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
                         }else{
+                            // Affiche un couloir si la porte est ouverte
                             g.setColor(Color.WHITE);
 //                            g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
                             g.drawImage(floorImg,j * tailleCase, i * tailleCase, tailleCase, tailleCase,this);
+
+                            // Gestion de la chaleur dans le couloir
                             int intensity = ((Porte) curr).getChaleur();
                             g.drawImage(fireImg,j * tailleCase ,i * tailleCase + tailleCase,tailleCase,-(int)3.6 * intensity, this);
                         }
                         g.setColor(Color.BLACK);
                         g.drawRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
                     }else if(curr instanceof Sortie){
+                        //affiche la sortie
                         g.setColor(Color.BLUE);
 //                        g.fillRect(j * tailleCase, i * tailleCase, tailleCase, tailleCase);
                         g.drawImage(floorImg,j * tailleCase, i * tailleCase, tailleCase, tailleCase,this);
@@ -137,6 +156,7 @@ public class FenetreJeu extends JPanel implements KeyListener {
             }
         }
 
+        // affiche le joueur
         g.setColor(Color.GRAY);
 //        g.fillOval(4 * tailleCase, 4 * tailleCase, tailleCase, tailleCase);
         if(this.joueur.isEast()) {
@@ -149,37 +169,44 @@ public class FenetreJeu extends JPanel implements KeyListener {
 
 
     public void ecranFinal(int n) {
-        frame.remove(this);
+        frame.remove(this); // supprime le paneau actuel de la fenêtre
+
+        //crée un label affichant le score
         JLabel label = new JLabel("Score " + n);
         label.setFont(new Font("Verdana", Font.PLAIN, 20));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setSize(this.getSize());
+
+        //ajoute le label a la fenêtre
         frame.getContentPane().add(label);
+
+        // redessine la fenêtre
         frame.repaint();
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
+        //gestion des touches du clavier
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_RIGHT: // deplacement vers la droite
                 this.joueur.bouge(this.terrain.cible(this.joueur.getCase(), Direction.est));
                 this.joueur.setEast();break;
-            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_LEFT: // deplacement vers la gauche
                 this.joueur.bouge(this.terrain.cible(this.joueur.getCase(), Direction.ouest));
                 this.joueur.setWest();break;
-            case KeyEvent.VK_UP:
+            case KeyEvent.VK_UP: // deplacement vers le haut
                 this.joueur.bouge(this.terrain.cible(this.joueur.getCase(), Direction.nord));break;
-            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_DOWN: // deplacement vers le bas
                 this.joueur.bouge(this.terrain.cible(this.joueur.getCase(), Direction.sud));break;
-            case KeyEvent.VK_SPACE:
+            case KeyEvent.VK_SPACE: // utilise un bucket avec Space
                 this.drop_bucket(joueur.getCase());break;
-            case KeyEvent.VK_M:
+            case KeyEvent.VK_M: // chargement de l'image du personnage a mario
                 try {
                     character = ImageIO.read(new File("media/mario-icon.png"));
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }break;
-            case KeyEvent.VK_S:
+            case KeyEvent.VK_S: // chargement de l'image du personnage a sonic
                 try {
                     character = ImageIO.read(new File("media/sonic-icon.png"));
                 } catch (IOException ex) {
@@ -188,6 +215,7 @@ public class FenetreJeu extends JPanel implements KeyListener {
             default:break;
         }
 
+        //redessine l'interface utilisateur
         repaint();
     }
 
@@ -203,6 +231,7 @@ public class FenetreJeu extends JPanel implements KeyListener {
     }
 
     public void updateInfoBoard(int health, int keys, int buckets) {
+        //// Met à jour les informations affichées dans le panneau d'information (InfoBoard)
         int res = Math.max(health, 0);
         score.setText("Health: " + res);
 
@@ -212,8 +241,9 @@ public class FenetreJeu extends JPanel implements KeyListener {
     public void updateGUI() {
         this.updateInfoBoard(joueur.getResistance(), joueur.getKeys(), joueur.getBucket());
     }
-
+    // Met à jour l'interface utilisateur
     public void drop_bucket(CaseTraversable c) {
+        // Largue un seau d'eau à la position de la case traversable donnée
         if (joueur.getBucket() > 0) {
             int lig = c.lig;
             int col = c.col;

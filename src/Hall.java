@@ -38,10 +38,10 @@ public class Hall extends CaseTraversable {
 
 	@Override
 	public void entre(Joueur j) {
-		super.entre(j);
-		if(containsKey()){
-			j.takeKey();
-			key = false;
+		super.entre(j); // appelle la fonction entre de la classe mère "case travsersable"
+		if(containsKey()){ // verifie si la case contient une clé
+			j.takeKey();// si oui , joueur prend la clé
+			key = false;//clé n'est desormais plus présentes
 		}
 		if(containsApple()){
 			j.takeApple();

@@ -7,24 +7,27 @@ public class Furfeux{
     Joueur joueur;
 
     public Furfeux(String f) {
-        this.terrain = new Terrain(f);
-        this.joueur = terrain.getJoueur();
+        this.terrain = new Terrain(f); // Initialise le terrain à partir d'un fichier de description
+        this.joueur = terrain.getJoueur(); // Obtient le joueur à partir du terrain
     }
 
-    public void tour() {
+    public void tour() { // Méthode pour effectuer un tour du jeu
+        // Parcourt toutes les cases du terrain
         for (int i = 1; i < terrain.getHauteur() - 1; i++) {
             for (int j = 1; j < terrain.getLargeur() - 1; j++) {
+                // Si la case est traversable, applique la propagation du feu à ses voisines
                 if(terrain.getCase(i,j) instanceof CaseTraversable){
                     ((CaseTraversable) terrain.getCase(i,j)).brule(terrain.getVoisinesTraversables(i,j));
                 }
             }
         }
-        joueur.burn(joueur.getCase().getChaleur());
+        joueur.burn(joueur.getCase().getChaleur());  // Applique les dégâts au joueur en fonction de la chaleur de sa case actuelle
     }
 
     public boolean partieFinie() {
         return joueur.estSortie() || joueur.getResistance() <= 0;
     }
+    // Méthode pour vérifier si la partie est terminée
 
     public static void main(String[] args) {
         int tempo = 100;
