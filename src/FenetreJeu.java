@@ -170,14 +170,24 @@ public class FenetreJeu extends JPanel implements KeyListener {
 
     public void ecranFinal(int n) {
         frame.remove(this); // supprime le paneau actuel de la fenêtre
-
+        JLabel label2;
         //crée un label affichant le score
-        JLabel label = new JLabel("Score " + n);
+        if(!joueur.estSortie()) {
+             label2 = new JLabel("Vous avez brulée! :(");
+        }else{
+            label2 = new JLabel("Vous avez reussi à sortir!");
+        }
+        JLabel label = new JLabel("Votre score est " + n);
         label.setFont(new Font("Verdana", Font.PLAIN, 20));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setSize(this.getSize());
 
+        label2.setFont(new Font("Verdana", Font.PLAIN, 20));
+        label2.setHorizontalAlignment(SwingConstants.CENTER);
+        label2.setSize(this.getSize());
+
         //ajoute le label a la fenêtre
+        frame.getContentPane().add(label2);
         frame.getContentPane().add(label);
 
         // redessine la fenêtre
