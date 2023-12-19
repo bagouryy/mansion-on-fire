@@ -8,21 +8,26 @@ import java.io.IOException;
 
 public class FenetreJeu extends JPanel implements KeyListener {
     private final Terrain terrain;
-    private final int tailleCase = 36;
+    private final int tailleCase = 70;
     private final int hauteur, largeur;
     private final JFrame frame; // fenetre
+
     private final Joueur joueur;
+    private final String user;
+
     private final JLabel key;//"etiquette" graphique
     private final JLabel score;
     private final JLabel info;
 
     private Image keyImg,appleImg,doorImg,character,wallImg,floorImg,fireImg,portalImg;
+    private boolean mario = false;
 
-    public FenetreJeu(Terrain t) {
+    public FenetreJeu(Terrain t, String user) {
         this.hauteur = t.getHauteur();
         this.largeur = t.getLargeur();
         this.terrain = t;
         this.joueur = t.getJoueur();
+        this.user = user;
 
         setBackground(Color.LIGHT_GRAY);//configuration du panneau
         setPreferredSize(new Dimension(9 * tailleCase, 9 * tailleCase));
@@ -49,7 +54,7 @@ public class FenetreJeu extends JPanel implements KeyListener {
         // configuration du panneau d'information ( en haut )
         JPanel InfoBoard = new JPanel();
         InfoBoard.setPreferredSize(new Dimension(9 * tailleCase , 50 ));
-        InfoBoard.setBackground(Color.BLUE);
+        InfoBoard.setBackground(Color.RED);
         // Label pour afficher le score du joueur
         score = new JLabel("Health: " + joueur.getResistance());
         score.setFont(new Font("Arial",Font.PLAIN,20));
@@ -168,7 +173,7 @@ public class FenetreJeu extends JPanel implements KeyListener {
 
 
 
-    public void ecranFinal(int n) {
+    public void ecranFinal(int n, long time) {
         frame.remove(this); // supprime le paneau actuel de la fenêtre
         //crée un label affichant le score
         JLabel label = new JLabel("Votre score est " + n);
@@ -176,8 +181,15 @@ public class FenetreJeu extends JPanel implements KeyListener {
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setSize(this.getSize());
 
+        JLabel label2 = new JLabel("Fait en " + time +"ms");
+        label2.setFont(new Font("Verdana", Font.PLAIN, 20));
+        label2.setHorizontalAlignment(SwingConstants.CENTER);
+        label2.setSize(this.getSize());
+
         //ajoute le label a la fenêtre
         frame.getContentPane().add(label);
+        frame.getContentPane().add(label2);
+
 
         // redessine la fenêtre
         frame.repaint();
@@ -202,12 +214,14 @@ public class FenetreJeu extends JPanel implements KeyListener {
             case KeyEvent.VK_M: // chargement de l'image du personnage a mario
                 try {
                     character = ImageIO.read(new File("media/mario-icon.png"));
+                    mario = true;
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }break;
             case KeyEvent.VK_S: // chargement de l'image du personnage a sonic
                 try {
                     character = ImageIO.read(new File("media/sonic-icon.png"));
+                    mario=false;
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }break;
@@ -264,5 +278,9 @@ public class FenetreJeu extends JPanel implements KeyListener {
             }
             joueur.useBucket();
         }
+    }
+
+    public boolean getMario() {
+        return mario;
     }
 }
